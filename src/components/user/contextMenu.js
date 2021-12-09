@@ -13,7 +13,7 @@ import LoginForm from "./loginForm";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 
-const UserMenu = () => {
+const ContextMenu = () => {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = !!anchorEl;
 	const handleClick = (event) => {
@@ -88,4 +88,4 @@ const UserMenu = () => {
 	);
 };
 
-export default UserMenu;
+export default ContextMenu;

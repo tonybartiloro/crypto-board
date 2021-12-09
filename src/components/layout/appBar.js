@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MuiAppBar from "@mui/material/AppBar";
 import CurrencySelect from "../misc/currencySelect";
-import UserMenu from "../misc/userMenu";
+import ContextMenu from "../user/contextMenu";
 import SyncData from "../misc/syncData";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -54,7 +54,7 @@ const AppBar = ({ open, onOpenDrawer }) => {
 						<MenuIcon />
 					</IconButton>
 				)}
-				<Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+				<Typography component="h2" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
 					Crypto Board
 				</Typography>
 				<CurrencySelect />
@@ -70,7 +70,7 @@ const AppBar = ({ open, onOpenDrawer }) => {
 				<RequireAuthAdmin>
 					<SyncData />
 				</RequireAuthAdmin>
-				<UserMenu />
+				<ContextMenu />
 			</Toolbar>
 		</StyledAppBar>
 	);
