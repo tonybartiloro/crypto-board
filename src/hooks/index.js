@@ -3,4 +3,6 @@ export { default as useApiAction } from "./useApiAction";
 export { default as useApiActionState } from "./useApiActionState";
 export { default as useClient } from "./useClient";
 export { default as useUserAssets } from "./useUserAssets";
+export { default as useAssets } from "./useAssets";
+export { default as useCurrencies } from "./useCurrencies";
 export { default as useSyncData } from "./useSyncData";

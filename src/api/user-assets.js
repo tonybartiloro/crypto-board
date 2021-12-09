@@ -3,3 +3,5 @@ export const getUserAssets = async ({ client, cancelToken }) =>
 		cancelToken,
 		params: {},
 	});
+
+	getUserAssets.key = "userassets";
