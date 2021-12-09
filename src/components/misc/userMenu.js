@@ -1,7 +1,6 @@
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import PersonIcon from "@mui/icons-material/Person";
 import IconButton from "@mui/material/IconButton";
-import { useSyncData, useUserAssets, useCurrencies, useAssets } from "../../hooks/";
 import { useUserContext } from "../../contexts";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -11,6 +10,8 @@ import { useState } from "react";
 import RequireAuth from "../hocs/requireAuth";
 import NotRequireAuth from "../hocs/notRequireAuth";
 import LoginForm from "./loginForm";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
 
 const UserMenu = () => {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -21,7 +22,7 @@ const UserMenu = () => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-	const { userId, onLogout, onLogin } = useUserContext();
+	const { userId, username, onLogout } = useUserContext();
 
 	return (
 		<>
@@ -66,6 +67,10 @@ const UserMenu = () => {
 					<LoginForm afterLogin={handleClose} />
 				</NotRequireAuth>
 				<RequireAuth>
+					<Typography component="p" variant="body1" p={2}>
+						{username}
+					</Typography>
+					<Divider />
 					<MenuItem
 						onClick={() => {
 							onLogout();

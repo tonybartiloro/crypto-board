@@ -46,22 +46,24 @@ const Allocations = () => {
 	};
 
 	return (
-		<Paper
-			elevation={4}
-			sx={{
-				p: 2,
-				display: "flex",
-				flexDirection: "column",
-				//height: 240,
-			}}
-		>
-			<Stack direction="column" spacing={2}>
-				<Typography component="p" variant="h5">
-					{"Allocations"}
-				</Typography>
-				{loading ? <Skeleton /> : <Pie data={data} options={options} />}
-			</Stack>
-		</Paper>
+		(loading || assets.length > 0) && (
+			<Paper
+				elevation={4}
+				sx={{
+					p: 2,
+					display: "flex",
+					flexDirection: "column",
+					//height: 240,
+				}}
+			>
+				<Stack direction="column" spacing={2}>
+					<Typography component="p" variant="h5">
+						{"Allocations"}
+					</Typography>
+					{loading ? <Skeleton /> : <Pie data={data} options={options} />}
+				</Stack>
+			</Paper>
+		)
 	);
 };
 

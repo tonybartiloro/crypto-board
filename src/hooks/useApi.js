@@ -56,7 +56,7 @@ const useApi = ({ method, key, args = {}, paused = false, options = {} }) => {
 	// is and object it will be threated as different objects on every render
 	// generating render loop
 	const memoizedArgs = useMemo(
-		() => JSON.stringify({ ...args }),
+		() => JSON.stringify({ ...args, ...{ currentUserId: client.defaults.headers.userId || 0 } }),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		memoizedArgsDeps
 	);
