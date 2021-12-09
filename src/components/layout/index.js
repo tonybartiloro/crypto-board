@@ -5,17 +5,22 @@ import { useState } from "react";
 import Footer from "./footer";
 import Drawer from "./drawer";
 import AppBar from "./appBar";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Layout = ({ children }) => {
-	const [openDrawer, setOpenDrawer] = useState(true);
+	const [openDrawer, setOpenDrawer] = useState(false);
 	const toggleDrawer = () => {
 		setOpenDrawer(!openDrawer);
 	};
 
+	const isDownMd = useMediaQuery((theme) => theme.breakpoints.down("md"));
+
+	const _openDrawer = isDownMd ? false : openDrawer;
+
 	return (
 		<Box sx={{ display: "flex" }}>
-			<AppBar onOpenDrawer={toggleDrawer} open={openDrawer} />
-			<Drawer onClose={toggleDrawer} open={openDrawer} />
+			<AppBar onOpenDrawer={toggleDrawer} open={_openDrawer} />
+			<Drawer onClose={toggleDrawer} open={_openDrawer} />
 			<Box
 				component="main"
 				sx={{

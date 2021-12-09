@@ -17,6 +17,7 @@ const Balance = () => {
 
 	return (
 		<Paper
+			elevation={4}
 			sx={{
 				p: 2,
 				display: "flex",
@@ -28,13 +29,13 @@ const Balance = () => {
 				<Stack direction="row" spacing={2}>
 					<AccountBalanceIcon />
 					<Stack direction="column" spacing={1} style={{ width: "100%" }}>
-						<Typography component="p" variant="h4">
+						<Typography component="p" variant="h5">
 							{"Balance"}
 						</Typography>
 						{loading ? (
 							<Skeleton />
 						) : (
-							<Typography component="p" variant="body1">
+							<Typography component="p" variant="body2">
 								{formatPrice(amount)} {currency}
 							</Typography>
 						)}

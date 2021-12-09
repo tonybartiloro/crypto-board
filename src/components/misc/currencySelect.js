@@ -9,7 +9,7 @@ const CurrencySelect = () => {
 
 	return (
 		currencies.length > 0 && (
-			<Select value={currency} onChange={(e) => setCurrency(e.target.value)} color="secondary">
+			<Select value={currency} onChange={(e) => setCurrency(e.target.value)} variant="standard">
 				{currencies.map(({ code }) => (
 					<MenuItem key={code} value={code}>
 						{code}

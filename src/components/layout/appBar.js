@@ -4,8 +4,12 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MuiAppBar from "@mui/material/AppBar";
 import CurrencySelect from "../misc/currencySelect";
+import UserMenu from "../misc/userMenu";
 import SyncData from "../misc/syncData";
 import { styled } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import Divider from "@mui/material/Divider";
+import RequireAuthAdmin from "../hocs/requireAuthAdmin";
 
 const drawerWidth = 240;
 
@@ -28,6 +32,8 @@ const StyledAppBar = styled(MuiAppBar, {
 }));
 
 const AppBar = ({ open, onOpenDrawer }) => {
+	const isUpMd = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
 	return (
 		<StyledAppBar position="absolute" open={open}>
 			<Toolbar
@@ -35,22 +41,36 @@ const AppBar = ({ open, onOpenDrawer }) => {
 					pr: "24px",
 				}}
 			>
-				<IconButton
-					edge="start"
-					color="inherit"
-					onClick={onOpenDrawer}
-					sx={{
-						marginRight: "36px",
-						...(open && { display: "none" }),
-					}}
-				>
-					<MenuIcon />
-				</IconButton>
+				{isUpMd && (
+					<IconButton
+						edge="start"
+						color="inherit"
+						onClick={onOpenDrawer}
+						sx={{
+							marginRight: "36px",
+							...(open && { display: "none" }),
+						}}
+					>
+						<MenuIcon />
+					</IconButton>
+				)}
 				<Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
 					Crypto Board
 				</Typography>
 				<CurrencySelect />
-				<SyncData />
+				<Divider
+					orientation="vertical"
+					variant="middle"
+					flexItem
+					sx={{
+						marginRight: "5px",
+						marginLeft: "20px",
+					}}
+				/>
+				<RequireAuthAdmin>
+					<SyncData />
+				</RequireAuthAdmin>
+				<UserMenu />
 			</Toolbar>
 		</StyledAppBar>
 	);

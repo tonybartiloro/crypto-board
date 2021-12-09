@@ -4,6 +4,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import { styled } from "@mui/material/styles";
+import Navigation from "./navigation";
 
 const drawerWidth = 240;
 
@@ -47,6 +48,7 @@ const Drawer = ({ open, onClose }) => {
 				</IconButton>
 			</Toolbar>
 			<Divider />
+			<Navigation />
 		</StyledDrawer>
 	);
 };

@@ -10,6 +10,16 @@ const muiTheme = createTheme({ typography: { htmlFontSize, fontSize } });
 
 const theme = createTheme({
 	direction: "ltr",
+	palette: {
+		mode: "dark",
+	},
+	components: {
+		MuiPaper: {
+			styleOverrides: {
+				root: {},
+			},
+		},
+	},
 	/* palette: {
 		common: {
 			black: "#141616",

@@ -1,6 +1,6 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import { isServerSide } from "../utils";
+//import { isServerSide } from "../utils";
 
 const throwError = (msg) => {
 	throw new Error(msg);

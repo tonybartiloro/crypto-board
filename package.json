@@ -12,6 +12,7 @@
     "@emotion/react": "^11.7.0",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.6.0",
+    "@hookform/resolvers": "^2.8.4",
     "@mui/icons-material": "^5.2.0",
     "@mui/material": "^5.2.2",
     "axios": "^0.24.0",
@@ -25,7 +26,9 @@
     "react-chartjs-2": "^4.0.0",
     "react-cookie": "^4.1.1",
     "react-dom": "17.0.2",
-    "swr": "^1.1.0"
+    "react-hook-form": "^7.21.0",
+    "swr": "^1.1.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "eslint": "7",

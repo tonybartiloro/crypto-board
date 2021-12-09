@@ -47,6 +47,7 @@ const Allocations = () => {
 
 	return (
 		<Paper
+			elevation={4}
 			sx={{
 				p: 2,
 				display: "flex",
@@ -55,7 +56,7 @@ const Allocations = () => {
 			}}
 		>
 			<Stack direction="column" spacing={2}>
-				<Typography component="p" variant="h4">
+				<Typography component="p" variant="h5">
 					{"Allocations"}
 				</Typography>
 				{loading ? <Skeleton /> : <Pie data={data} options={options} />}

@@ -8,6 +8,7 @@ import { CacheProvider } from "@emotion/react";
 import { SWRConfig as SWRConfigProvider } from "swr";
 import { CurrencyContext, UserContext } from "../contexts/";
 import { useState } from "react";
+import { useUserAssets } from "../hooks";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -17,7 +18,11 @@ const clientSideEmotionCache = createEmotionCache();
 }
  */
 const App = ({ Component, pageProps, emotionCache = clientSideEmotionCache }) => {
+	/* const { mutate: updateUserAssets } = useUserAssets(); */
 	const [currency, setCurrency] = useState("USD");
+	const [user, setUser] = useState({
+		userId: null,
+	});
 
 	return (
 		<CacheProvider value={emotionCache}>
@@ -35,7 +40,18 @@ const App = ({ Component, pageProps, emotionCache = clientSideEmotionCache }) =>
 						revalidateOnReconnect: false,
 					}}
 				>
-					<UserContext.Provider value={{ userId: "0KxUgaok5LltvsatEPCG", username: "tony.bartiloro" }}>
+					<UserContext.Provider
+						value={{
+							...user,
+							...{ onLogout: () => setUser({}) },
+							...{
+								onLogin: ({ username, userId, role }) => {
+									setUser({ username, userId, role });
+									/* updateUserAssets(); */
+								},
+							},
+						}}
+					>
 						<CurrencyContext.Provider value={{ currency, setCurrency }}>
 							<Layout>
 								<Component {...pageProps} />
