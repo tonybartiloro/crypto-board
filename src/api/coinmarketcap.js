@@ -15,22 +15,24 @@ export const decorateSuccessResponse = (res, data, decorator) => {
 	return res.status(data.status).json(decorator ? decorator(data.data.data) : data.data.data);
 };
 
-export const getToolsPriceConversion = async ({ client, cancelToken, amount, symbol, time, convert }) =>
+export const getToolsPriceConversion = async ({ client, cancelToken, amount, /* symbol ,*/ time, convert, id }) =>
 	await client.get(`/v1/tools/price-conversion`, {
 		cancelToken,
 		params: {
 			amount,
-			symbol,
+			id,
+			//symbol,
 			time,
 			convert,
 		},
 	});
 
-export const getCryptocurrencyInfo = async ({ client, cancelToken, symbol }) =>
+export const getCryptocurrencyInfo = async ({ client, cancelToken, symbols, ids }) =>
 	await client.get(`/v1/cryptocurrency/info`, {
 		cancelToken,
 		params: {
-			symbol,
+			symbol: Array.isArray(symbols) ? symbols?.join(",") : symbols,
+			id: Array.isArray(ids) ? ids?.join(",") : ids,
 		},
 	});
 
