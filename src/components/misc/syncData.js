@@ -5,9 +5,9 @@ import { useCallback } from "react";
 
 const SyncData = () => {
 	const { currencies } = useCurrencies();
-	const { assets } = useAssets();
+	const { assets, mutate: updateAssets } = useAssets();
 	const { action, loading } = useSyncData();
-	const { mutate: updateAssets } = useUserAssets();
+	const { mutate: updateUserAssets } = useUserAssets();
 
 	const onSyncData = useCallback(async () => {
 		await action({
@@ -17,7 +17,8 @@ const SyncData = () => {
 			})),
 			symbolsTo: currencies.map(({ code }) => code),
 		});
-		updateAssets();
+		await updateAssets();
+		await updateUserAssets();
 	}, [action, updateAssets, currencies, assets]);
 
 	return (

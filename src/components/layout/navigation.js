@@ -5,6 +5,8 @@ import List from "@mui/material/List";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import Link from "next/link";
+import RequireAuthAdmin from "../hocs/requireAuthAdmin";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
 const Navigation = () => {
 	return (
@@ -25,6 +27,16 @@ const Navigation = () => {
 					<ListItemText primary="Wallet" />
 				</ListItem>
 			</Link>
+			<RequireAuthAdmin>
+				<Link href="/assets" passHref>
+					<ListItem button>
+						<ListItemIcon>
+							<FormatListBulletedIcon />
+						</ListItemIcon>
+						<ListItemText primary="Assets" />
+					</ListItem>
+				</Link>
+			</RequireAuthAdmin>
 		</List>
 	);
 };

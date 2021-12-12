@@ -5,6 +5,8 @@ export { default as useClient } from "./useClient";
 export { default as useUserAssets } from "./useUserAssets";
 export { default as useUserLogin } from "./useUserLogin";
 export { default as useAssets } from "./useAssets";
+export { default as useAssetsAdd } from "./useAssetsAdd";
+export { default as useAssetsDelete } from "./useAssetsDelete";
 export { default as useUserAssetAdd } from "./useUserAssetAdd";
 export { default as useUserAssetDelete } from "./useUserAssetDelete";
 export { default as useUserAssetsEdit } from "./useUserAssetsEdit";

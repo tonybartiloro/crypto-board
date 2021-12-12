@@ -11,6 +11,15 @@ const handler = async (req, res) => {
 				userId: userDocSnapshot.id,
 				...userDocSnapshot.data(),
 			};
+		} else {
+
+			userDocSnapshot = await firestoreDb.collection("users").add({ username, role: "user" });
+
+			userData = {
+				userId: userDocSnapshot.id,
+				username,
+				role: "user"
+			};
 		}
 		return res.status(200).json(userData);
 	} catch (error) {

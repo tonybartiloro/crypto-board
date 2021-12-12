@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useUserAssets, useAssets, useUserAssetAdd, useUserAssetDelete, useUserAssetsEdit } from "../../hooks/";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -206,9 +206,7 @@ const WalletForm = ({}) => {
 				{loadingUserAssets && !userAssets.length && <Skeleton />}
 			</form>
 			<Dialog onClose={handleClose} open={open} fullWidth>
-				<DialogTitle id="customized-dialog-title" onClose={handleClose}>
-					Add new asset
-				</DialogTitle>
+				<DialogTitle onClose={handleClose}>Add new asset</DialogTitle>
 				<DialogContent dividers>
 					<form>
 						<Stack direction="column" spacing={4}>
