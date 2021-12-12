@@ -1,12 +1,13 @@
 import { default as MuiSkeleton } from "@mui/material/Skeleton";
+import Box from "@mui/material/Box";
 
 const Skeleton = () => {
 	return (
-		<div>
+		<Box>
 			<MuiSkeleton />
 			<MuiSkeleton animation="wave" />
 			<MuiSkeleton animation={false} />
-		</div>
+		</Box>
 	);
 };
 

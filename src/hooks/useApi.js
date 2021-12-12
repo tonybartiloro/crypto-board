@@ -45,9 +45,9 @@ const generateArgKeys = (args) => {
 const useApi = ({ method, key, args = {}, paused = false, options = {} }) => {
 	const client = useClient();
 
-	const memoizedArgsDeps = Object.values({
-		...args,
-	}).map((dep) => (isPrimitive(dep) ? dep : JSON.stringify(dep)));
+	const currentUserId = client.defaults.headers.userId || 0;
+
+	const memoizedArgsDeps = Object.values({ ...args, currentUserId }).map((dep) => (isPrimitive(dep) ? dep : JSON.stringify(dep)));
 
 	const cancelRef = useRef(noop);
 	const setCancel = (cancel) => (cancelRef.current = cancel);
@@ -56,7 +56,7 @@ const useApi = ({ method, key, args = {}, paused = false, options = {} }) => {
 	// is and object it will be threated as different objects on every render
 	// generating render loop
 	const memoizedArgs = useMemo(
-		() => JSON.stringify({ ...args, ...{ currentUserId: client.defaults.headers.userId || 0 } }),
+		() => JSON.stringify({ ...args, currentUserId }),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		memoizedArgsDeps
 	);

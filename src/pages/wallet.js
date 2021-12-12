@@ -3,7 +3,6 @@ import RequireAuth from "../components/hocs/requireAuth";
 import Head from "next/head";
 import Typography from "@mui/material/Typography";
 import WalletForm from "../components/user/walletForm";
-import TestForm from "../components/user/testform";
 
 const Wallet = () => {
 	return (
