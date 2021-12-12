@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useUserAssets, useAssets, useUserAssetAdd, useUserAssetDelete } from "../../hooks/";
+import { useState } from "react";
+import { useUserAssets, useAssets, useUserAssetAdd, useUserAssetDelete, useUserAssetsEdit } from "../../hooks/";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
@@ -23,6 +23,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuItem from "@mui/material/MenuItem";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const schemaAdd = yup
 	.object({
@@ -79,6 +80,8 @@ const DialogTitle = (props) => {
 };
 
 const WalletForm = ({}) => {
+	const isUpMd = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
 	const [open, setOpen] = useState(false);
 
 	const handleClickOpen = () => {
@@ -95,6 +98,8 @@ const WalletForm = ({}) => {
 	const { action: addAsset, loading: addLoading } = useUserAssetAdd();
 
 	const { action: deleteAsset, loading: deleteLoading } = useUserAssetDelete();
+
+	const { action: editAssets, loading: editLoading } = useUserAssetsEdit();
 
 	const missingUserAssets = assets.filter((asset) => userAssets.find((userAsset) => asset.symbol === userAsset.symbol) === undefined);
 
@@ -115,6 +120,7 @@ const WalletForm = ({}) => {
 		handleSubmit,
 		formState: { errors },
 		register,
+		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
 	});
@@ -133,8 +139,9 @@ const WalletForm = ({}) => {
 		},
 	});
 
-	const onSubmit = (data) => {
-		console.log(data);
+	const onSubmit = async (assets) => {
+		await editAssets({ assets });
+		updateUserAssets();
 	};
 
 	const onSubmitAdd = async ({ symbol, amount }) => {
@@ -152,7 +159,6 @@ const WalletForm = ({}) => {
 			symbol,
 		});
 		updateUserAssets();
-		resetAdd();
 	};
 
 	return (
@@ -170,14 +176,16 @@ const WalletForm = ({}) => {
 							//height: 240,
 						}}
 					>
-						<Stack direction="row" spacing={2} alignItems="center">
-							<IconButton disabled={deleteLoading} color="inherit" onClick={() => onAssetDelete({ symbol })}>
-								<DeleteIcon />
-							</IconButton>
-							<Avatar alt={symbol} src={logo} />
-							<Typography component="p" variant="h5">
-								{symbol}
-							</Typography>
+						<Stack direction={isUpMd ? "row" : "column"} spacing={2}>
+							<Stack direction="row" spacing={2} alignItems="center">
+								<IconButton disabled={deleteLoading} color="inherit" onClick={() => onAssetDelete({ symbol })}>
+									<DeleteIcon />
+								</IconButton>
+								<Avatar alt={symbol} src={logo} />
+								<Typography component="p" variant="h5">
+									{symbol}
+								</Typography>
+							</Stack>
 							<TextField
 								type="number"
 								name={`${symbol}`}
@@ -246,10 +254,16 @@ const WalletForm = ({}) => {
 				</DialogActions>
 			</Dialog>
 			<FloatingBar>
-				<ActionButton color="secondary" size="medium" type="submit" onClick={handleSubmit(onSubmit)}>
+				<ActionButton
+					disabled={editLoading || userAssets.length === 0}
+					color="secondary"
+					size="medium"
+					type="submit"
+					onClick={handleSubmit(onSubmit)}
+				>
 					<SaveIcon />
 				</ActionButton>
-				<ActionButton color="primary" size="medium" onClick={handleClickOpen}>
+				<ActionButton disabled={addLoading || missingUserAssets.length === 0} color="primary" size="medium" onClick={handleClickOpen}>
 					<AddIcon />
 				</ActionButton>
 			</FloatingBar>

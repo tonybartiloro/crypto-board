@@ -1,7 +1,7 @@
 import { firestoreDb, firestoreFieldPath } from "../../firebase/";
 const handler = async (req, res) => {
 	try {
-		const { symbol } = req.query;
+		const { symbol } = req.query || {};
 
 		const userId = req.headers.userid;
 		const userDocRef = firestoreDb.collection("users").doc(userId);
