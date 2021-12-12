@@ -118,7 +118,7 @@ const WalletForm = ({}) => {
 	const {
 		control,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isDirty },
 		register,
 		unregister,
 		reset,
@@ -259,7 +259,7 @@ const WalletForm = ({}) => {
 			</Dialog>
 			<FloatingBar>
 				<ActionButton
-					disabled={editLoading || userAssets.length === 0}
+					disabled={editLoading || userAssets.length === 0 || !isDirty}
 					color="secondary"
 					size="medium"
 					type="submit"
