@@ -71,19 +71,28 @@ const handler = async (req, res) => {
 			const pricesData = [];
 			for (const indexSymboslTo in symbolsTo) {
 				// avoid Your plan is limited to 1 convert options
-				const priceData = decorateToolsPriceConversionResponse(
-					(
-						await getToolsPriceConversion({
-							client,
-							amount: 1,
-							//symbol: asset.symbol,
-							id: asset.coinmarketcapId,
-							convert: symbolsTo[indexSymboslTo],
-						})
-					).data.data
-				);
+				try {
+					const priceData = decorateToolsPriceConversionResponse(
+						(
+							await getToolsPriceConversion({
+								client,
+								amount: 1,
+								//symbol: asset.symbol,
+								id: asset.coinmarketcapId,
+								convert: symbolsTo[indexSymboslTo],
+							})
+						).data.data
+					);
 
-				pricesData.push(priceData);
+					pricesData.push(priceData);
+				} catch (error) {
+					prices.push({
+						lastUpdated: null,
+						currency: symbolsTo[indexSymboslTo],
+						price: null,
+					});
+				}
+
 			}
 
 			syncedData.push({
