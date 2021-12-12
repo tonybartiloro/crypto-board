@@ -219,8 +219,8 @@ const WalletForm = ({}) => {
 								select
 								defaultValue=""
 								{...registerAdd("symbol")}
-								error={errorsAdd.asset?.type === "required"}
-								helperText={errorsAdd.asset?.message || " "}
+								error={errorsAdd.symbol?.type === "required"}
+								helperText={errorsAdd.symbol?.message || " "}
 							>
 								<MenuItem key={""} value={""}>
 									<Typography component="p" variant="p">
