@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUserAssets, useAssets, useUserAssetAdd, useUserAssetDelete, useUserAssetsEdit } from "../../hooks/";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
@@ -120,6 +120,7 @@ const WalletForm = ({}) => {
 		handleSubmit,
 		formState: { errors },
 		register,
+		unregister,
 		reset,
 	} = useForm({
 		resolver: yupResolver(schema),
@@ -158,7 +159,10 @@ const WalletForm = ({}) => {
 		await deleteAsset({
 			symbol,
 		});
-		updateUserAssets();
+
+		await updateUserAssets();
+
+		unregister(symbol);
 	};
 
 	return (
@@ -194,7 +198,7 @@ const WalletForm = ({}) => {
 								error={errors?.[symbol]?.type === "required"}
 								helperText={errors?.[symbol]?.message || " "}
 								label="Amount"
-								{...register(`${symbol}`)}
+								{...register(symbol)}
 							/>
 						</Stack>
 					</Paper>
