@@ -24,3 +24,10 @@ export const formatAssetAmount = (amount) =>
 	new Intl.NumberFormat("en-US", {
 		maximumFractionDigits: 10,
 	}).format(amount);
+
+
+	export const sleep = (ms) => {
+		return new Promise((resolve) => {
+			setTimeout(resolve, ms);
+		});
+	};

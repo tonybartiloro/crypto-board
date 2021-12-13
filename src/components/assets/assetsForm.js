@@ -22,6 +22,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuItem from "@mui/material/MenuItem";
+import { formatAssetAmount } from "../../utils";
+import { useCurrencyContext } from "../../contexts/";
 
 const schemaAdd = yup
 	.object({
@@ -93,6 +95,8 @@ const AssetsForm = ({}) => {
 
 	const { action: deleteAsset, loading: deleteLoading } = useAssetsDelete();
 
+	const { currency } = useCurrencyContext();
+
 	const {
 		control: controlAdd,
 		handleSubmit: handleSubmitAdd,
@@ -127,7 +131,7 @@ const AssetsForm = ({}) => {
 
 	return (
 		<AssetList>
-			{assets.map(({ symbol, logo }) => (
+			{assets.map(({ symbol, logo, prices }) => (
 				<Paper
 					key={symbol}
 					elevation={4}
@@ -146,6 +150,9 @@ const AssetsForm = ({}) => {
 						<Avatar alt={symbol} src={logo} />
 						<Typography component="p" variant="h5">
 							{symbol}
+						</Typography>
+						<Typography component="p" variant="body2">
+							{formatAssetAmount(prices.find((conversion) => conversion.currency === currency)?.price)} {currency}
 						</Typography>
 					</Stack>
 				</Paper>

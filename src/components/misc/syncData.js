@@ -11,15 +11,17 @@ const SyncData = () => {
 
 	const onSyncData = useCallback(async () => {
 		await action({
-			assets: assets.map(({ symbol, coinmarketcapId }) => ({
-				symbol,
-				coinmarketcapId,
-			})),
+			assets: assets
+				//.filter(({ symbol }) => symbol === "ANKR")
+				.map(({ symbol, coinmarketcapId }) => ({
+					symbol,
+					coinmarketcapId,
+				})),
 			symbolsTo: currencies.map(({ code }) => code),
 		});
 		await updateAssets();
 		await updateUserAssets();
-	}, [action, updateAssets, currencies, assets]);
+	}, [action, updateAssets, updateUserAssets, currencies, assets]);
 
 	return (
 		<IconButton disabled={loading || assets.length == 0} color="inherit" onClick={onSyncData}>

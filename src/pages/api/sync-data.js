@@ -1,6 +1,7 @@
 import { createClient } from "../../api/client";
 import { decorateClient, getCryptocurrencyInfo, getToolsPriceConversion } from "../../api/coinmarketcap";
 import { firestoreDb, firestoreTimestamp } from "../../firebase/";
+import { sleep } from "../../utils";
 
 const decorateCryptocurrencyInfoResponse = (data) =>
 	Object.keys(data).map((key) => ({
@@ -31,7 +32,10 @@ const decorateToolsPriceConversionResponse = ({ last_updated, quote }) => ({
 
 const handler = async (req, res) => {
 	try {
-		const assets = req.query["assets[]"].map((item) => JSON.parse(item)); // TODO: check with 1 assets
+		const assets = Array.isArray(req.query["assets[]"])
+			? req.query["assets[]"].map((item) => JSON.parse(item))
+			: [JSON.parse(req.query["assets[]"])];
+
 		const assetSymbols = assets.filter(({ coinmarketcapId }) => !coinmarketcapId);
 		const assetCoinmarketcapIds = assets.filter(({ coinmarketcapId }) => coinmarketcapId > 0);
 
@@ -51,6 +55,8 @@ const handler = async (req, res) => {
 				  )
 				: [];
 
+		await sleep(1000);
+
 		const infoDataCoinmarketcapIds =
 			assetCoinmarketcapIds.length > 0
 				? decorateCryptocurrencyInfoResponse(
@@ -63,6 +69,8 @@ const handler = async (req, res) => {
 				  )
 				: [];
 
+		await sleep(1000);
+
 		const infoData = [...infoDataSymbols, ...infoDataCoinmarketcapIds];
 
 		const syncedData = [];
@@ -71,6 +79,7 @@ const handler = async (req, res) => {
 			const pricesData = [];
 			for (const indexSymboslTo in symbolsTo) {
 				// avoid Your plan is limited to 1 convert options
+				await sleep(2000);
 				try {
 					const priceData = decorateToolsPriceConversionResponse(
 						(
@@ -86,13 +95,14 @@ const handler = async (req, res) => {
 
 					pricesData.push(priceData);
 				} catch (error) {
-					prices.push({
+					console.log(error);
+					console.log(asset);
+					pricesData.push({
 						lastUpdated: null,
 						currency: symbolsTo[indexSymboslTo],
 						price: null,
 					});
 				}
-
 			}
 
 			syncedData.push({
