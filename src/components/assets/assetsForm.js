@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useAssets, useAssetsAdd, useAssetsDelete } from "../../hooks/";
+import { useState, useCallback } from "react";
+import { useAssets, useAssetsAdd, useAssetsDelete, useSyncData, useUserAssets, useCurrencies } from "../../hooks/";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
@@ -24,6 +24,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import MenuItem from "@mui/material/MenuItem";
 import { formatAssetAmount } from "../../utils";
 import { useCurrencyContext } from "../../contexts/";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 const schemaAdd = yup
 	.object({
@@ -89,13 +90,19 @@ const AssetsForm = ({}) => {
 		setOpen(false);
 	};
 
+	const { action: syncData, loading: loadingSyncData } = useSyncData();
+
 	const { assets, loading: loadingAssets, mutate: updateAssets } = useAssets();
+
+	const { mutate: updateUserAssets } = useUserAssets();
 
 	const { action: addAsset, loading: addLoading } = useAssetsAdd();
 
 	const { action: deleteAsset, loading: deleteLoading } = useAssetsDelete();
 
 	const { currency } = useCurrencyContext();
+
+	const { currencies } = useCurrencies();
 
 	const {
 		control: controlAdd,
@@ -129,6 +136,23 @@ const AssetsForm = ({}) => {
 		await updateAssets();
 	};
 
+	const onSyncData = useCallback(
+		async (assetSymbol) => {
+			await syncData({
+				assets: assets
+					.filter(({ symbol }) => symbol === assetSymbol)
+					.map(({ symbol, coinmarketcapId }) => ({
+						symbol,
+						coinmarketcapId,
+					})),
+				symbolsTo: currencies.map(({ code }) => code),
+			});
+			await updateAssets();
+			await updateUserAssets();
+		},
+		[syncData, updateAssets, updateUserAssets, currencies, assets]
+	);
+
 	return (
 		<AssetList>
 			{assets.map(({ symbol, logo, prices }) => (
@@ -154,6 +178,12 @@ const AssetsForm = ({}) => {
 						<Typography component="p" variant="body2">
 							{formatAssetAmount(prices.find((conversion) => conversion.currency === currency)?.price)} {currency}
 						</Typography>
+						<Typography component="p" variant="body1">
+							{`${new Date(prices.find((conversion) => conversion.currency === currency)?.lastUpdated).toLocaleString()}`}
+						</Typography>
+						<IconButton disabled={loadingSyncData} color="inherit" onClick={() => onSyncData(symbol)}>
+							<RefreshIcon />
+						</IconButton>
 					</Stack>
 				</Paper>
 			))}
