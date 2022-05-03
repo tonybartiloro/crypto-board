@@ -167,23 +167,27 @@ const AssetsForm = ({}) => {
 						//height: 240,
 					}}
 				>
-					<Stack direction="row" spacing={2} alignItems="center">
-						<IconButton disabled={deleteLoading} color="inherit" onClick={() => onAssetDelete({ symbol })}>
-							<DeleteIcon />
-						</IconButton>
-						<Avatar alt={symbol} src={logo} />
-						<Typography component="p" variant="h5">
-							{symbol}
-						</Typography>
+					<Stack direction="column" spacing={1} alignItems="left">
+						<Stack direction="row" spacing={2} alignItems="center">
+							<IconButton disabled={deleteLoading} color="inherit" onClick={() => onAssetDelete({ symbol })}>
+								<DeleteIcon />
+							</IconButton>
+							<Avatar alt={symbol} src={logo} />
+							<Typography component="p" variant="h5">
+								{symbol}
+							</Typography>
+						</Stack>
 						<Typography component="p" variant="body2">
 							{formatAssetAmount(prices.find((conversion) => conversion.currency === currency)?.price)} {currency}
 						</Typography>
 						<Typography component="p" variant="body1">
 							{`${new Date(prices.find((conversion) => conversion.currency === currency)?.lastUpdated).toLocaleString()}`}
 						</Typography>
-						<IconButton disabled={loadingSyncData} color="inherit" onClick={() => onSyncData(symbol)}>
-							<RefreshIcon />
-						</IconButton>
+						<div>
+							<IconButton disabled={loadingSyncData} color="inherit" onClick={() => onSyncData(symbol)}>
+								<RefreshIcon />
+							</IconButton>
+						</div>
 					</Stack>
 				</Paper>
 			))}
